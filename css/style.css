@@ -833,8 +833,8 @@ ul {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 220px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 240px 240px 220px;
   gap: 1rem;
   margin-bottom: 2.5rem;
 }
@@ -849,6 +849,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   transition: transform 0.5s ease;
 }
 
@@ -861,7 +862,7 @@ ul {
 }
 
 .gallery-item--wide {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .gallery-cta {

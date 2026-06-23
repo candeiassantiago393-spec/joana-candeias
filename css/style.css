@@ -46,6 +46,52 @@ body {
   overflow-x: hidden;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 24%),
+              radial-gradient(circle at bottom right, rgba(201, 169, 110, 0.08), transparent 18%);
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-content {
+  animation: floatIn 1s ease-out 0.2s both;
+}
+
+.hero-tagline {
+  animation: yogaFloat 6s ease-in-out infinite;
+}
+
+.hero-desc,
+.hero-actions,
+.hero-eyebrow {
+  will-change: transform, opacity;
+}
+
+@keyframes floatIn {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes yogaFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -244,6 +290,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 30%;
 }
 
 .hero-overlay {
@@ -447,6 +494,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   transition: transform 0.6s ease;
 }
 
@@ -573,7 +621,106 @@ ul {
   letter-spacing: 0.03em;
 }
 
-/* ---- About ---- */
+/* ---- A Profissional ---- */
+.professional {
+  padding: 6rem 0;
+  background: var(--navy-dark);
+  color: var(--white);
+}
+
+.professional-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.professional-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 3px solid rgba(201, 169, 110, 0.35);
+}
+
+.professional-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.professional-content .section-label {
+  color: var(--gold);
+}
+
+.professional-content h2 {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+
+.professional-role {
+  color: var(--gold-light);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.professional-quote {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  padding-left: 1.25rem;
+  margin-bottom: 1.75rem;
+  line-height: 1.4;
+}
+
+.professional-content p {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.professional-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.professional-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold-light);
+}
+
+.professional-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.professional .social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.professional .social-link:hover {
+  color: var(--gold);
+}
+
+/* ---- About (legacy, kept for reference) ---- */
 .about {
   padding: 6rem 0;
   background: var(--navy-dark);
@@ -917,9 +1064,15 @@ ul {
   }
 
   .about-grid,
+  .professional-grid,
   .booking-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+  }
+
+  .professional-image {
+    max-width: 420px;
+    margin: 0 auto;
   }
 
   .gallery-grid {

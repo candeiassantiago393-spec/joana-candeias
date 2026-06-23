@@ -102,17 +102,14 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('reveal-active');
       }
     });
   },
   { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 
-document.querySelectorAll('.service-card, .highlight-card, .gallery-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+document.querySelectorAll('.hero-content, .section-header, .service-card, .highlight-card, .gallery-item, .professional-image, .professional-content, .booking-info, .booking-form, .footer-grid').forEach(el => {
+  el.classList.add('reveal');
   observer.observe(el);
 });

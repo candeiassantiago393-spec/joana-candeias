@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initBookingForm();
   initServiceLinks();
+  initServiceVideos();
   setMinDate();
 });
 
@@ -95,6 +96,39 @@ function setMinDate() {
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split('-');
   return `${day}/${month}/${year}`;
+}
+
+// Lazy-load service videos when visible
+function initServiceVideos() {
+  const videos = document.querySelectorAll('.service-video[data-src]');
+  if (!videos.length) return;
+
+  const loadAndPlay = (video) => {
+    if (video.dataset.loaded) return;
+    const src = video.dataset.src;
+    if (!src) return;
+
+    video.src = src;
+    video.dataset.loaded = 'true';
+    video.load();
+    video.play().catch(() => {});
+  };
+
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          loadAndPlay(video);
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { threshold: 0.35 }
+  );
+
+  videos.forEach((video) => videoObserver.observe(video));
 }
 
 // Smooth reveal on scroll

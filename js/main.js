@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingForm();
   initServiceVideos();
   initTestimonialsSlider();
+  initRetreatAlbum();
   setMinDate();
 });
 
@@ -182,6 +183,26 @@ function initTestimonialsSlider() {
 
   buildDots();
   goTo(0, false);
+}
+
+// Retreat album — add images to RETREAT_IMAGES when ready
+const RETREAT_IMAGES = [
+  // { src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Retiro — movimento consciente' },
+];
+
+function initRetreatAlbum() {
+  const grid = document.getElementById('retreatAlbumGrid');
+  const placeholder = document.getElementById('retreatAlbumPlaceholder');
+  if (!grid || !RETREAT_IMAGES.length) return;
+
+  placeholder?.remove();
+
+  RETREAT_IMAGES.forEach(({ src, alt }) => {
+    const item = document.createElement('div');
+    item.className = 'retreat-album-item';
+    item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+    grid.appendChild(item);
+  });
 }
 
 // Set minimum date to today

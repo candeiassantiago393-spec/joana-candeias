@@ -31,10 +31,11 @@ function initMobileNav() {
   if (!toggle || !menu) return;
 
   const setMenuOpen = (open) => {
+    const t = window.SiteI18n?.t ?? ((key) => key);
     toggle.classList.toggle('open', open);
     menu.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    toggle.setAttribute('aria-label', open ? t('aria.closeMenu') : t('aria.openMenu'));
     if (overlay) {
       overlay.classList.toggle('is-visible', open);
       overlay.hidden = !open;
@@ -66,13 +67,14 @@ function initBookingForm() {
     const data = document.getElementById('data').value;
     const hora = document.getElementById('hora').value;
     const mensagem = document.getElementById('mensagem').value.trim();
+    const t = window.SiteI18n?.t ?? ((key) => key);
 
-    let text = `Olá Joana! Gostava de marcar uma sessão.\n\n`;
-    text += `*Nome:* ${nome}\n`;
-    text += `*Serviço:* ${servico}\n`;
-    if (data) text += `*Data preferida:* ${formatDate(data)}\n`;
-    if (hora) text += `*Hora preferida:* ${hora}\n`;
-    if (mensagem) text += `*Mensagem:* ${mensagem}\n`;
+    let text = t('booking.waIntro');
+    text += `*${t('booking.waName')}:* ${nome}\n`;
+    text += `*${t('booking.waService')}:* ${servico}\n`;
+    if (data) text += `*${t('booking.waDate')}:* ${formatDate(data)}\n`;
+    if (hora) text += `*${t('booking.waTime')}:* ${hora}\n`;
+    if (mensagem) text += `*${t('booking.waMessage')}:* ${mensagem}\n`;
 
     const url = buildWhatsAppUrl(text);
     window.open(url, '_blank');
@@ -134,7 +136,7 @@ function initTestimonialsSlider() {
       const dot = document.createElement('button');
       dot.type = 'button';
       dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
-      dot.setAttribute('aria-label', `Ir para testemunho ${i + 1}`);
+      dot.setAttribute('aria-label', `${window.SiteI18n?.t('testimonials.label') ?? 'Testemunhos'} ${i + 1}`);
       dot.addEventListener('click', () => goTo(i));
       dotsContainer.appendChild(dot);
     }
@@ -187,7 +189,7 @@ function initTestimonialsSlider() {
 
 const INSPIRATION_ALBUMS = {
   retiro: {
-    title: 'Retiro',
+    titleKey: 'album.retiro',
     images: [
       { type: 'image', src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Retiro — foto 1' },
       { type: 'image', src: 'assets/gallery/retiros/retiro-02.jpg', alt: 'Retiro — foto 2' },
@@ -204,7 +206,7 @@ const INSPIRATION_ALBUMS = {
     ],
   },
   joana: {
-    title: 'A profissional',
+    titleKey: 'album.joana',
     images: [
       { type: 'image', src: 'assets/gallery/joana/joana-01.jpg', alt: 'Joana Candeias — foto 1' },
       { type: 'image', src: 'assets/gallery/joana/joana-02.jpg', alt: 'Joana Candeias — foto 2' },
@@ -249,8 +251,9 @@ function initInspirationAlbums() {
     const album = INSPIRATION_ALBUMS[albumId];
     if (!album) return;
 
+    const t = window.SiteI18n?.t ?? ((key) => key);
     lastFocus = document.activeElement;
-    titleEl.textContent = album.title;
+    titleEl.textContent = t(album.titleKey);
     grid.innerHTML = '';
 
     if (album.images.length) {
@@ -261,7 +264,7 @@ function initInspirationAlbums() {
         if (type === 'video') {
           item.classList.add('album-modal-item--video');
           item.innerHTML = `
-            <button type="button" class="album-video-trigger" aria-label="Reproduzir ${alt}">
+            <button type="button" class="album-video-trigger" aria-label="${t('album.play')} ${alt}">
               <span class="album-video-trigger-icon" aria-hidden="true">▶</span>
             </button>
             <video controls playsinline preload="none" data-src="${src}" aria-label="${alt}"></video>

@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initMobileNav();
   initBookingForm();
-  initServiceLinks();
   initServiceVideos();
   setMinDate();
 });
@@ -62,34 +61,15 @@ function initBookingForm() {
     if (hora) text += `*Hora preferida:* ${hora}\n`;
     if (mensagem) text += `*Mensagem:* ${mensagem}\n`;
 
-    const url = `https://wa.me/351919872745?text=${encodeURIComponent(text)}`;
+    const url = buildWhatsAppUrl(text);
     window.open(url, '_blank');
   });
 }
 
 const WHATSAPP_NUMBER = '351919872745';
 
-const SERVICE_WHATSAPP_MESSAGES = {
-  Massagem: 'Olá Joana! Gostava de marcar uma massagem.',
-  'Drenagem linfática & Pressoterapia': 'Olá Joana! Gostava de marcar uma sessão de drenagem linfática e pressoterapia.',
-  'Treino Funcional': 'Olá Joana! Gostava de marcar uma sessão de treino funcional ou saber mais informações sobre as práticas.',
-  'Movimento Terapêutico Yôga & Pilates': 'Olá Joana! Gostava de marcar uma sessão de Movimento Terapêutico Yôga & Pilates ou saber mais informações sobre as práticas.',
-  'Consultas de nutrição | Saúde natural & suplementação': 'Olá Joana! Gostava de marcar uma consulta de nutrição.',
-};
-
 function buildWhatsAppUrl(text) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-}
-
-// Service cards → WhatsApp with pre-filled message
-function initServiceLinks() {
-  document.querySelectorAll('.service-link[data-service]').forEach(link => {
-    const service = link.dataset.service;
-    const text = SERVICE_WHATSAPP_MESSAGES[service] || `Olá Joana! Gostava de marcar uma sessão de ${service}.`;
-    link.href = buildWhatsAppUrl(text);
-    link.target = '_blank';
-    link.rel = 'noopener';
-  });
 }
 
 // Set minimum date to today

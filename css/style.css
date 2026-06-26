@@ -774,6 +774,10 @@ ul {
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   border: 3px solid var(--sage-pale);
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
 }
 
 .professional-image img {

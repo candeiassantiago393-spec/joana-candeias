@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initBookingForm();
   initServiceVideos();
+  initTestimonialsSlider();
   setMinDate();
 });
 
@@ -72,6 +73,106 @@ function buildWhatsAppUrl(text) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
+// Testimonials carousel — 2 cards desktop, swipe + arrows
+function initTestimonialsSlider() {
+  const slider = document.getElementById('testimonialsSlider');
+  const track = slider?.querySelector('.testimonials-track');
+  const viewport = slider?.querySelector('.testimonials-viewport');
+  const prevBtn = slider?.querySelector('.testimonials-arrow--prev');
+  const nextBtn = slider?.querySelector('.testimonials-arrow--next');
+  const dotsContainer = document.getElementById('testimonialsDots');
+  if (!slider || !track || !viewport || !prevBtn || !nextBtn) return;
+
+  const cards = [...track.children];
+  let index = 0;
+  let dragStartX = 0;
+  let dragDelta = 0;
+  let isDragging = false;
+
+  const getSlidesPerView = () => (window.innerWidth <= 640 ? 1 : 2);
+
+  const getMaxIndex = () => Math.max(0, cards.length - getSlidesPerView());
+
+  const getStep = () => {
+    const card = cards[0];
+    if (!card) return 0;
+    const gap = parseFloat(getComputedStyle(track).gap) || 24;
+    return card.offsetWidth + gap;
+  };
+
+  const goTo = (nextIndex, animate = true) => {
+    index = Math.max(0, Math.min(nextIndex, getMaxIndex()));
+    track.classList.toggle('no-transition', !animate);
+    track.style.transform = `translateX(-${index * getStep()}px)`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index >= getMaxIndex();
+    dotsContainer?.querySelectorAll('.testimonials-dot').forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
+    });
+    if (!animate) {
+      requestAnimationFrame(() => track.classList.remove('no-transition'));
+    }
+  };
+
+  const buildDots = () => {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    const total = getMaxIndex() + 1;
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
+      dot.setAttribute('aria-label', `Ir para testemunho ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    }
+  };
+
+  prevBtn.addEventListener('click', () => goTo(index - 1));
+  nextBtn.addEventListener('click', () => goTo(index + 1));
+
+  const onPointerDown = (e) => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragDelta = 0;
+    viewport.classList.add('is-dragging');
+    track.classList.add('no-transition');
+    viewport.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e) => {
+    if (!isDragging) return;
+    dragDelta = e.clientX - dragStartX;
+    track.style.transform = `translateX(${-index * getStep() + dragDelta}px)`;
+  };
+
+  const onPointerUp = (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    viewport.classList.remove('is-dragging');
+    track.classList.remove('no-transition');
+    viewport.releasePointerCapture(e.pointerId);
+
+    const threshold = getStep() * 0.2;
+    if (dragDelta < -threshold) goTo(index + 1);
+    else if (dragDelta > threshold) goTo(index - 1);
+    else goTo(index);
+  };
+
+  viewport.addEventListener('pointerdown', onPointerDown);
+  viewport.addEventListener('pointermove', onPointerMove);
+  viewport.addEventListener('pointerup', onPointerUp);
+  viewport.addEventListener('pointercancel', onPointerUp);
+
+  window.addEventListener('resize', () => {
+    buildDots();
+    goTo(Math.min(index, getMaxIndex()), false);
+  });
+
+  buildDots();
+  goTo(0, false);
+}
+
 // Set minimum date to today
 function setMinDate() {
   const dateInput = document.getElementById('data');
@@ -135,7 +236,7 @@ const observer = new IntersectionObserver(
   { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 
-document.querySelectorAll('.hero-content, .section-header, .service-card, .highlight-card, .gallery-item, .professional-image, .professional-content, .booking-info, .booking-form, .footer-grid').forEach(el => {
+document.querySelectorAll('.hero-content, .section-header, .service-card, .highlight-card, .gallery-item, .professional-image, .professional-content, .testimonial-card, .booking-info, .booking-form, .footer-grid').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });

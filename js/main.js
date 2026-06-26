@@ -26,18 +26,29 @@ function initHeader() {
 function initMobileNav() {
   const toggle = document.getElementById('navToggle');
   const menu = document.getElementById('navMenu');
+  const overlay = document.getElementById('navOverlay');
   if (!toggle || !menu) return;
 
+  const setMenuOpen = (open) => {
+    toggle.classList.toggle('open', open);
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    if (overlay) {
+      overlay.classList.toggle('is-visible', open);
+      overlay.hidden = !open;
+    }
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
   toggle.addEventListener('click', () => {
-    toggle.classList.toggle('open');
-    menu.classList.toggle('open');
+    setMenuOpen(!menu.classList.contains('open'));
   });
 
+  overlay?.addEventListener('click', () => setMenuOpen(false));
+
   menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      menu.classList.remove('open');
-    });
+    link.addEventListener('click', () => setMenuOpen(false));
   });
 }
 

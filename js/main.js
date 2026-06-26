@@ -100,6 +100,10 @@ function formatDate(dateStr) {
 
 // Lazy-load service videos when visible
 function initServiceVideos() {
+  document.querySelectorAll('.service-video--active').forEach((video) => {
+    video.play().catch(() => {});
+  });
+
   const videos = document.querySelectorAll('.service-video[data-src]');
   if (!videos.length) return;
 

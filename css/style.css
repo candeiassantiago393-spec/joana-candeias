@@ -1664,7 +1664,7 @@ ul {
 }
 
 .footer-logo {
-  height: 40px;
+  height: 100px;
   width: auto;
   filter: none;
   opacity: 0.9;
@@ -1885,6 +1885,10 @@ ul {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
+  .footer-logo {
+    height: 88px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -2030,5 +2034,9 @@ ul {
 
   .header.scrolled .nav-logo .logo-img {
     height: 68px;
+  }
+
+  .footer-logo {
+    height: 76px;
   }
 }

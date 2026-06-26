@@ -419,14 +419,14 @@ ul {
 
 .highlights-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
 
 .highlight-card {
-  text-align: center;
+  text-align: left;
   color: var(--text);
-  padding: 1.5rem;
+  padding: 2.25rem;
   background: var(--white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
@@ -441,16 +441,58 @@ ul {
 
 .highlight-card h3 {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   font-weight: 400;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   color: var(--sage-dark);
+  line-height: 1.25;
+}
+
+.highlight-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--sage);
+  margin-bottom: 0.75rem;
 }
 
 .highlight-card p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   font-weight: 300;
+  margin-bottom: 0.85rem;
+  line-height: 1.65;
+}
+
+.highlight-closing {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--sage-dark);
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+
+.highlight-list {
+  margin-top: 0.5rem;
+}
+
+.highlight-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.highlight-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--sage-light);
+  font-size: 0.65rem;
+  top: 0.2rem;
 }
 
 /* ---- Section headers ---- */

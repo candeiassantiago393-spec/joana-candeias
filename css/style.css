@@ -581,6 +581,22 @@ ul {
   object-position: center 82%;
 }
 
+.service-image--fit {
+  aspect-ratio: auto;
+  height: auto;
+  background: var(--cream-dark);
+}
+
+.service-image--fit img {
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.service-card:hover .service-image--fit img {
+  transform: none;
+}
+
 .service-card:hover .service-image img,
 .service-card:hover .service-image video {
   transform: scale(1.05);

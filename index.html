@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="icon" href="assets/identidade_p0_img1.png" type="image/png">
 </head>
 <body>
@@ -40,7 +40,7 @@
   <!-- Hero -->
   <section class="hero" id="inicio">
     <div class="hero-bg">
-      <img src="assets/hero-fundo.jpg?v=2" alt="" class="hero-image">
+      <img src="assets/hero-fundo.jpg?v=2" alt="" class="hero-image" fetchpriority="high" decoding="async">
       <div class="hero-overlay"></div>
     </div>
     <div class="hero-content container">
@@ -100,9 +100,9 @@
         <!-- Massagens - destaque principal -->
         <article class="service-card service-featured">
           <div class="service-image service-image--video">
-            <video class="service-video service-video--active" muted loop playsinline autoplay preload="auto"
+            <video class="service-video" muted loop playsinline autoplay preload="none"
               poster="assets/videos/massagens-relaxamento-poster.png"
-              src="assets/videos/massagens-relaxamento.mp4">
+              data-src="assets/videos/massagens-relaxamento.mp4">
             </video>
             <span class="service-badge">Destaque</span>
           </div>
@@ -116,7 +116,7 @@
         <!-- Drenagem linfática & Pressoterapia -->
         <article class="service-card">
           <div class="service-image service-image--fit">
-            <img src="assets/pressoterapia-drenagem.jpg" alt="Drenagem linfática e pressoterapia">
+            <img src="assets/pressoterapia-drenagem.jpg" alt="Drenagem linfática e pressoterapia" loading="lazy" decoding="async">
             <span class="service-badge service-badge-new">Novo</span>
           </div>
           <div class="service-body">
@@ -129,7 +129,7 @@
         <!-- Treino Funcional -->
         <article class="service-card">
           <div class="service-image service-image--treino">
-            <img src="assets/treino-funcional.jpg" alt="Treino funcional">
+            <img src="assets/treino-funcional.jpg" alt="Treino funcional" loading="lazy" decoding="async">
           </div>
           <div class="service-body">
             <h3>Treino Funcional</h3>
@@ -141,7 +141,7 @@
         <!-- Movimento Terapêutico Yôga & Pilates -->
         <article class="service-card">
           <div class="service-image">
-            <img src="assets/movimento-yoga-pilates.jpg" alt="Movimento terapêutico, yôga e pilates">
+            <img src="assets/movimento-yoga-pilates.jpg" alt="Movimento terapêutico, yôga e pilates" loading="lazy" decoding="async">
           </div>
           <div class="service-body">
             <h3>Movimento Terapêutico Yôga & Pilates</h3>
@@ -153,7 +153,7 @@
         <!-- Nutrição -->
         <article class="service-card">
           <div class="service-image">
-            <img src="assets/nutricao-saude-natural.jpg" alt="Consultas de nutrição, saúde natural e suplementação">
+            <img src="assets/nutricao-saude-natural.jpg" alt="Consultas de nutrição, saúde natural e suplementação" loading="lazy" decoding="async">
           </div>
           <div class="service-body">
             <h3>Consultas de nutrição | Saúde natural & suplementação</h3>
@@ -170,7 +170,7 @@
   <section class="professional" id="profissional">
     <div class="container professional-grid">
       <div class="professional-image">
-        <img src="assets/joana-profissional.jpg" alt="Joana Candeias — Terapeuta Integrativa">
+        <img src="assets/joana-profissional.jpg" alt="Joana Candeias — Terapeuta Integrativa" loading="lazy" decoding="async">
       </div>
       <div class="professional-content">
         <span class="section-label">A profissional</span>
@@ -301,7 +301,7 @@
       <div class="inspiration-albums">
         <button type="button" class="inspiration-card" data-album="retiro" aria-haspopup="dialog">
           <span class="inspiration-card-image">
-            <img src="assets/gallery/retiro-capa.jpg" alt="Grupo num retiro de movimento e partilha">
+            <img src="assets/gallery/retiro-capa.jpg" alt="Grupo num retiro de movimento e partilha" loading="lazy" decoding="async">
           </span>
           <span class="inspiration-card-body">
             <span class="inspiration-card-label">Retiros</span>
@@ -312,7 +312,7 @@
 
         <button type="button" class="inspiration-card" data-album="joana" aria-haspopup="dialog">
           <span class="inspiration-card-image inspiration-card-image--portrait">
-            <img src="assets/gallery/joana-capa.jpg" alt="Joana Candeias — terapeuta integrativa">
+            <img src="assets/gallery/joana-capa.jpg" alt="Joana Candeias — terapeuta integrativa" loading="lazy" decoding="async">
           </span>
           <span class="inspiration-card-body">
             <span class="inspiration-card-label">A profissional</span>
@@ -415,7 +415,7 @@
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="assets/identidade_p0_img1.png" alt="Joana Candeias" class="footer-logo">
+        <img src="assets/identidade_p0_img1.png" alt="Joana Candeias" class="footer-logo" loading="lazy" decoding="async">
       </div>
       <div class="footer-links">
         <h4>Navegação</h4>
@@ -439,6 +439,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=3" defer></script>
 </body>
 </html>

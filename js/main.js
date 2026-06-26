@@ -260,7 +260,24 @@ function initInspirationAlbums() {
         item.className = 'album-modal-item';
         if (type === 'video') {
           item.classList.add('album-modal-item--video');
-          item.innerHTML = `<video src="${src}" controls playsinline preload="metadata" aria-label="${alt}"></video>`;
+          item.innerHTML = `
+            <button type="button" class="album-video-trigger" aria-label="Reproduzir ${alt}">
+              <span class="album-video-trigger-icon" aria-hidden="true">▶</span>
+            </button>
+            <video controls playsinline preload="none" data-src="${src}" aria-label="${alt}"></video>
+          `;
+
+          const trigger = item.querySelector('.album-video-trigger');
+          const video = item.querySelector('video');
+          trigger?.addEventListener('click', () => {
+            if (!video.dataset.loaded) {
+              video.src = video.dataset.src;
+              video.dataset.loaded = 'true';
+              video.load();
+            }
+            trigger.hidden = true;
+            video.play().catch(() => {});
+          });
         } else {
           item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
         }
@@ -303,10 +320,6 @@ function formatDate(dateStr) {
 
 // Lazy-load service videos when visible
 function initServiceVideos() {
-  document.querySelectorAll('.service-video--active').forEach((video) => {
-    video.play().catch(() => {});
-  });
-
   const videos = document.querySelectorAll('.service-video[data-src]');
   if (!videos.length) return;
 
@@ -332,7 +345,7 @@ function initServiceVideos() {
         }
       });
     },
-    { threshold: 0.35 }
+    { threshold: 0.35, rootMargin: '120px 0px' }
   );
 
   videos.forEach((video) => videoObserver.observe(video));

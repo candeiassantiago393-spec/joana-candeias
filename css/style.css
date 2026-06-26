@@ -253,11 +253,11 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
 }
 
 .nav-logo .logo-img {
-  height: 72px;
+  height: 110px;
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
@@ -1310,7 +1310,41 @@ ul {
 }
 
 .album-modal-item--video {
+  position: relative;
   aspect-ratio: 9 / 16;
+}
+
+.album-video-trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: rgba(45, 62, 48, 0.35);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.album-video-trigger:hover {
+  background: rgba(45, 62, 48, 0.48);
+}
+
+.album-video-trigger[hidden] {
+  display: none;
+}
+
+.album-video-trigger-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  padding-left: 0.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
 .album-modal-empty {
@@ -1587,7 +1621,7 @@ ul {
   }
 
   .nav-logo .logo-img {
-    height: 62px;
+    height: 88px;
   }
 
   .nav-menu {
@@ -1864,6 +1898,6 @@ ul {
   }
 
   .nav-logo .logo-img {
-    height: 54px;
+    height: 76px;
   }
 }

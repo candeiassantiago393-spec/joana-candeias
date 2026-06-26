@@ -1160,18 +1160,32 @@ ul {
   display: block;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  background: var(--cream-dark);
+}
+
+.inspiration-card-image--portrait {
+  aspect-ratio: 3 / 4;
 }
 
 .inspiration-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   transition: transform 0.5s ease;
+}
+
+.inspiration-card-image--portrait img {
+  object-fit: cover;
+  object-position: center 12%;
 }
 
 .inspiration-card:hover .inspiration-card-image img {
   transform: scale(1.04);
+}
+
+.inspiration-card:hover .inspiration-card-image--portrait img {
+  transform: scale(1.02);
 }
 
 .inspiration-card-body {

@@ -185,18 +185,41 @@ function initTestimonialsSlider() {
   goTo(0, false);
 }
 
-// Inspiration albums — add photos to images[] when ready
 const INSPIRATION_ALBUMS = {
   retiro: {
     title: 'Retiro',
     images: [
-      // { src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Momento de partilha no retiro' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Retiro — foto 1' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-02.jpg', alt: 'Retiro — foto 2' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-03.jpg', alt: 'Retiro — foto 3' },
+      { type: 'video', src: 'assets/gallery/retiros/retiro-01.mp4', alt: 'Retiro — vídeo 1' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-04.jpg', alt: 'Retiro — foto 4' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-05.jpg', alt: 'Retiro — foto 5' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-06.jpg', alt: 'Retiro — foto 6' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-07.jpg', alt: 'Retiro — foto 7' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-08.jpg', alt: 'Retiro — foto 8' },
+      { type: 'video', src: 'assets/gallery/retiros/retiro-02.mp4', alt: 'Retiro — vídeo 2' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-09.jpg', alt: 'Retiro — foto 9' },
+      { type: 'image', src: 'assets/gallery/retiros/retiro-10.jpg', alt: 'Retiro — foto 10' },
     ],
   },
   joana: {
     title: 'A profissional',
     images: [
-      // { src: 'assets/gallery/joana/joana-01.jpg', alt: 'Joana Candeias' },
+      { type: 'image', src: 'assets/gallery/joana/joana-01.jpg', alt: 'Joana Candeias — foto 1' },
+      { type: 'image', src: 'assets/gallery/joana/joana-02.jpg', alt: 'Joana Candeias — foto 2' },
+      { type: 'image', src: 'assets/gallery/joana/joana-03.jpg', alt: 'Joana Candeias — foto 3' },
+      { type: 'image', src: 'assets/gallery/joana/joana-04.jpg', alt: 'Joana Candeias — foto 4' },
+      { type: 'image', src: 'assets/gallery/joana/joana-05.jpg', alt: 'Joana Candeias — foto 5' },
+      { type: 'image', src: 'assets/gallery/joana/joana-06.jpg', alt: 'Joana Candeias — foto 6' },
+      { type: 'image', src: 'assets/gallery/joana/joana-07.jpg', alt: 'Joana Candeias — foto 7' },
+      { type: 'image', src: 'assets/gallery/joana/joana-08.jpg', alt: 'Joana Candeias — foto 8' },
+      { type: 'image', src: 'assets/gallery/joana/joana-09.jpg', alt: 'Joana Candeias — foto 9' },
+      { type: 'image', src: 'assets/gallery/joana/joana-10.jpg', alt: 'Joana Candeias — foto 10' },
+      { type: 'image', src: 'assets/gallery/joana/joana-11.jpg', alt: 'Joana Candeias — foto 11' },
+      { type: 'image', src: 'assets/gallery/joana/joana-12.jpg', alt: 'Joana Candeias — foto 12' },
+      { type: 'image', src: 'assets/gallery/joana/joana-13.jpg', alt: 'Joana Candeias — foto 13' },
+      { type: 'video', src: 'assets/gallery/joana/joana-01.mp4', alt: 'Joana Candeias — vídeo 1' },
     ],
   },
 };
@@ -213,6 +236,9 @@ function initInspirationAlbums() {
   let lastFocus = null;
 
   const closeModal = () => {
+    grid.querySelectorAll('video').forEach((video) => {
+      video.pause();
+    });
     modal.hidden = true;
     document.body.style.overflow = '';
     grid.innerHTML = '';
@@ -229,10 +255,15 @@ function initInspirationAlbums() {
 
     if (album.images.length) {
       emptyEl.hidden = true;
-      album.images.forEach(({ src, alt }) => {
+      album.images.forEach(({ src, alt, type = 'image' }) => {
         const item = document.createElement('div');
         item.className = 'album-modal-item';
-        item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+        if (type === 'video') {
+          item.classList.add('album-modal-item--video');
+          item.innerHTML = `<video src="${src}" controls playsinline preload="metadata" aria-label="${alt}"></video>`;
+        } else {
+          item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+        }
         grid.appendChild(item);
       });
     } else {

@@ -247,7 +247,7 @@ ul {
 }
 
 .nav-logo .logo-img {
-  height: 48px;
+  height: 72px;
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
@@ -1645,6 +1645,10 @@ ul {
 @media (max-width: 640px) {
   .nav-toggle {
     display: flex;
+  }
+
+  .nav-logo .logo-img {
+    height: 58px;
   }
 
   .nav-menu {

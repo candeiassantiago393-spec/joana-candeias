@@ -1094,11 +1094,12 @@ ul {
 
 .gallery-intro {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-style: italic;
   color: var(--sage-dark);
-  margin: 0.75rem auto 1rem;
-  max-width: 32rem;
+  margin: 0.75rem auto 1.25rem;
+  max-width: 28rem;
+  line-height: 1.55;
 }
 
 .gallery .section-desc {
@@ -1106,34 +1107,41 @@ ul {
   margin: 0 auto;
 }
 
-.retreat-album {
+.inspiration-albums {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
   margin: 2.5rem 0 2rem;
 }
 
-.retreat-album-title {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--sage-dark);
-  text-align: center;
-  margin-bottom: 1.25rem;
-}
-
-.retreat-album-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.retreat-album-item {
-  border-radius: var(--radius);
+.inspiration-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 4 / 3;
   background: var(--white);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  font: inherit;
+  color: inherit;
 }
 
-.retreat-album-item img {
+.inspiration-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.inspiration-card-image {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.inspiration-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1141,41 +1149,127 @@ ul {
   transition: transform 0.5s ease;
 }
 
-.retreat-album-item:hover img {
-  transform: scale(1.05);
+.inspiration-card:hover .inspiration-card-image img {
+  transform: scale(1.04);
 }
 
-.retreat-album-placeholder {
-  grid-column: 1 / -1;
+.inspiration-card-body {
   display: flex;
   flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+}
+
+.inspiration-card-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.inspiration-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--sage-dark);
+}
+
+.inspiration-card-action {
+  font-size: 0.85rem;
+  color: var(--sage);
+  margin-top: 0.25rem;
+}
+
+/* Album popup */
+.album-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 0.5rem;
-  padding: 3rem 2rem;
-  border: 1.5px dashed var(--sage-light);
+  padding: 1rem;
+}
+
+.album-modal[hidden] {
+  display: none;
+}
+
+.album-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(47, 52, 42, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.album-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(920px, 100%);
+  max-height: min(88vh, 900px);
+  overflow-y: auto;
+  background: var(--white);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--text-muted);
+  padding: 1.5rem 1.5rem 1.75rem;
+  box-shadow: var(--shadow-lg);
 }
 
-.retreat-album-placeholder p {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
+.album-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--sage-pale);
   color: var(--sage-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.album-modal-close:hover {
+  background: var(--sage-light);
+}
+
+.album-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--sage-dark);
+  margin: 0 2.5rem 1.25rem 0;
+}
+
+.album-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.album-modal-item {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--cream);
+}
+
+.album-modal-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.album-modal-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 2.5rem 1rem;
   margin: 0;
-}
-
-.retreat-album-placeholder span {
-  font-size: 0.9rem;
-  font-weight: 300;
-}
-
-.retreat-album-placeholder-icon {
-  font-size: 2rem;
-  line-height: 1;
-  margin-bottom: 0.25rem;
+  border: 1.5px dashed var(--sage-light);
+  border-radius: var(--radius);
+  background: var(--cream);
 }
 
 .gallery-grid {
@@ -1477,6 +1571,17 @@ ul {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .inspiration-albums {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .album-modal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
@@ -1607,6 +1712,14 @@ ul {
 
   .retreat-album-grid {
     grid-template-columns: 1fr;
+  }
+
+  .album-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .album-modal-dialog {
+    padding: 1.25rem 1rem 1.5rem;
   }
 
   .gallery-item--tall {

@@ -285,25 +285,37 @@
     </div>
   </section>
 
-  <!-- Inspiração & Retiros -->
+  <!-- Inspiração -->
   <section class="gallery" id="galeria">
     <div class="container">
       <div class="section-header section-header--center">
         <span class="section-label">Inspiração</span>
-        <h2>Momentos de equilíbrio</h2>
-        <p class="gallery-intro">Espaços de pausa. De presença. De regresso ao corpo.</p>
+        <p class="gallery-intro">Espaços de pausa.<br>De presença.<br>De regresso ao corpo.</p>
         <p class="section-desc">Momentos de retiros, encontros e partilhas onde o movimento consciente, o silêncio e a conexão criam transformação.</p>
       </div>
 
-      <div class="retreat-album" id="retiros">
-        <h3 class="retreat-album-title">Álbum de retiros</h3>
-        <div class="retreat-album-grid" id="retreatAlbumGrid" aria-live="polite">
-          <div class="retreat-album-placeholder" id="retreatAlbumPlaceholder">
-            <span class="retreat-album-placeholder-icon" aria-hidden="true">🌿</span>
-            <p>Álbum em breve</p>
-            <span>Imagens e momentos dos retiros serão adicionados aqui.</span>
-          </div>
-        </div>
+      <div class="inspiration-albums">
+        <button type="button" class="inspiration-card" data-album="retiro" aria-haspopup="dialog">
+          <span class="inspiration-card-image">
+            <img src="assets/gallery/retiro-capa.jpg" alt="Grupo num retiro de movimento e partilha">
+          </span>
+          <span class="inspiration-card-body">
+            <span class="inspiration-card-label">Retiros</span>
+            <span class="inspiration-card-title">Movimento, silêncio e conexão</span>
+            <span class="inspiration-card-action">Ver álbum →</span>
+          </span>
+        </button>
+
+        <button type="button" class="inspiration-card" data-album="joana" aria-haspopup="dialog">
+          <span class="inspiration-card-image">
+            <img src="assets/gallery/joana-capa.jpg" alt="Joana Candeias — terapeuta integrativa">
+          </span>
+          <span class="inspiration-card-body">
+            <span class="inspiration-card-label">A profissional</span>
+            <span class="inspiration-card-title">Joana Candeias</span>
+            <span class="inspiration-card-action">Ver álbum →</span>
+          </span>
+        </button>
       </div>
 
       <div class="gallery-cta">
@@ -315,6 +327,19 @@
       </div>
     </div>
   </section>
+
+  <!-- Popup álbum de fotos -->
+  <div class="album-modal" id="albumModal" hidden role="dialog" aria-modal="true" aria-labelledby="albumModalTitle">
+    <div class="album-modal-backdrop" id="albumModalBackdrop"></div>
+    <div class="album-modal-dialog">
+      <button type="button" class="album-modal-close" id="albumModalClose" aria-label="Fechar álbum">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <h3 class="album-modal-title" id="albumModalTitle"></h3>
+      <div class="album-modal-grid" id="albumModalGrid"></div>
+      <p class="album-modal-empty" id="albumModalEmpty">Mais fotos em breve.</p>
+    </div>
+  </div>
 
   <!-- Marcações -->
   <section class="booking" id="marcacoes">

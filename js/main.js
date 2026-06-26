@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingForm();
   initServiceVideos();
   initTestimonialsSlider();
-  initRetreatAlbum();
+  initInspirationAlbums();
   setMinDate();
 });
 
@@ -185,23 +185,74 @@ function initTestimonialsSlider() {
   goTo(0, false);
 }
 
-// Retreat album — add images to RETREAT_IMAGES when ready
-const RETREAT_IMAGES = [
-  // { src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Retiro — movimento consciente' },
-];
+// Inspiration albums — add photos to images[] when ready
+const INSPIRATION_ALBUMS = {
+  retiro: {
+    title: 'Retiro',
+    images: [
+      // { src: 'assets/gallery/retiros/retiro-01.jpg', alt: 'Momento de partilha no retiro' },
+    ],
+  },
+  joana: {
+    title: 'A profissional',
+    images: [
+      // { src: 'assets/gallery/joana/joana-01.jpg', alt: 'Joana Candeias' },
+    ],
+  },
+};
 
-function initRetreatAlbum() {
-  const grid = document.getElementById('retreatAlbumGrid');
-  const placeholder = document.getElementById('retreatAlbumPlaceholder');
-  if (!grid || !RETREAT_IMAGES.length) return;
+function initInspirationAlbums() {
+  const modal = document.getElementById('albumModal');
+  const backdrop = document.getElementById('albumModalBackdrop');
+  const closeBtn = document.getElementById('albumModalClose');
+  const titleEl = document.getElementById('albumModalTitle');
+  const grid = document.getElementById('albumModalGrid');
+  const emptyEl = document.getElementById('albumModalEmpty');
+  if (!modal || !grid || !titleEl || !emptyEl) return;
 
-  placeholder?.remove();
+  let lastFocus = null;
 
-  RETREAT_IMAGES.forEach(({ src, alt }) => {
-    const item = document.createElement('div');
-    item.className = 'retreat-album-item';
-    item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
-    grid.appendChild(item);
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    grid.innerHTML = '';
+    lastFocus?.focus();
+  };
+
+  const openModal = (albumId) => {
+    const album = INSPIRATION_ALBUMS[albumId];
+    if (!album) return;
+
+    lastFocus = document.activeElement;
+    titleEl.textContent = album.title;
+    grid.innerHTML = '';
+
+    if (album.images.length) {
+      emptyEl.hidden = true;
+      album.images.forEach(({ src, alt }) => {
+        const item = document.createElement('div');
+        item.className = 'album-modal-item';
+        item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+        grid.appendChild(item);
+      });
+    } else {
+      emptyEl.hidden = false;
+    }
+
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  };
+
+  document.querySelectorAll('.inspiration-card[data-album]').forEach((card) => {
+    card.addEventListener('click', () => openModal(card.dataset.album));
+  });
+
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal.hidden && e.key === 'Escape') closeModal();
   });
 }
 
@@ -268,7 +319,7 @@ const observer = new IntersectionObserver(
   { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 
-document.querySelectorAll('.hero-content, .section-header, .service-card, .highlight-card, .gallery-item, .professional-image, .professional-content, .testimonial-card, .booking-info, .booking-form, .footer-grid').forEach(el => {
+document.querySelectorAll('.hero-content, .section-header, .service-card, .highlight-card, .inspiration-card, .professional-image, .professional-content, .testimonial-card, .booking-info, .booking-form, .footer-grid').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });

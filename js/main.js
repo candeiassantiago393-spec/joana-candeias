@@ -233,17 +233,93 @@ function initInspirationAlbums() {
   const titleEl = document.getElementById('albumModalTitle');
   const grid = document.getElementById('albumModalGrid');
   const emptyEl = document.getElementById('albumModalEmpty');
-  if (!modal || !grid || !titleEl || !emptyEl) return;
+  const moreBtn = document.getElementById('albumModalMore');
+  if (!modal || !grid || !titleEl || !emptyEl || !moreBtn) return;
 
   let lastFocus = null;
+  let activeAlbum = null;
+  let renderedCount = 0;
+  const BATCH_SIZE = 6;
+
+  const imageObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target;
+        const src = img.dataset.src;
+        if (src) {
+          img.src = src;
+          img.removeAttribute('data-src');
+        }
+        observer.unobserve(img);
+      });
+    },
+    { root: grid, rootMargin: '150px 0px' }
+  );
+
+  const updateMoreButton = () => {
+    if (!activeAlbum) {
+      moreBtn.hidden = true;
+      return;
+    }
+    moreBtn.hidden = renderedCount >= activeAlbum.images.length;
+  };
+
+  const createAlbumItem = ({ src, alt, type = 'image' }) => {
+    const item = document.createElement('div');
+    item.className = 'album-modal-item';
+
+    if (type === 'video') {
+      const t = window.SiteI18n?.t ?? ((key) => key);
+      item.classList.add('album-modal-item--video');
+      item.innerHTML = `
+        <button type="button" class="album-video-trigger" aria-label="${t('album.play')} ${alt}">
+          <span class="album-video-trigger-icon" aria-hidden="true">▶</span>
+        </button>
+        <video controls playsinline preload="none" data-src="${src}" aria-label="${alt}"></video>
+      `;
+
+      const trigger = item.querySelector('.album-video-trigger');
+      const video = item.querySelector('video');
+      trigger?.addEventListener('click', () => {
+        if (!video.dataset.loaded) {
+          video.src = video.dataset.src;
+          video.dataset.loaded = 'true';
+          video.load();
+        }
+        trigger.hidden = true;
+        video.play().catch(() => {});
+      });
+      return item;
+    }
+
+    item.innerHTML = `<img data-src="${src}" alt="${alt}" loading="lazy" decoding="async">`;
+    const image = item.querySelector('img');
+    if (image) imageObserver.observe(image);
+    return item;
+  };
+
+  const appendNextBatch = () => {
+    if (!activeAlbum) return;
+    const nextItems = activeAlbum.images.slice(renderedCount, renderedCount + BATCH_SIZE);
+    nextItems.forEach((media) => {
+      grid.appendChild(createAlbumItem(media));
+    });
+    renderedCount += nextItems.length;
+    updateMoreButton();
+  };
 
   const closeModal = () => {
     grid.querySelectorAll('video').forEach((video) => {
       video.pause();
     });
+    imageObserver.disconnect();
     modal.hidden = true;
     document.body.style.overflow = '';
     grid.innerHTML = '';
+    activeAlbum = null;
+    renderedCount = 0;
+    moreBtn.hidden = true;
     lastFocus?.focus();
   };
 
@@ -255,39 +331,15 @@ function initInspirationAlbums() {
     lastFocus = document.activeElement;
     titleEl.textContent = t(album.titleKey);
     grid.innerHTML = '';
+    activeAlbum = album;
+    renderedCount = 0;
 
     if (album.images.length) {
       emptyEl.hidden = true;
-      album.images.forEach(({ src, alt, type = 'image' }) => {
-        const item = document.createElement('div');
-        item.className = 'album-modal-item';
-        if (type === 'video') {
-          item.classList.add('album-modal-item--video');
-          item.innerHTML = `
-            <button type="button" class="album-video-trigger" aria-label="${t('album.play')} ${alt}">
-              <span class="album-video-trigger-icon" aria-hidden="true">▶</span>
-            </button>
-            <video controls playsinline preload="none" data-src="${src}" aria-label="${alt}"></video>
-          `;
-
-          const trigger = item.querySelector('.album-video-trigger');
-          const video = item.querySelector('video');
-          trigger?.addEventListener('click', () => {
-            if (!video.dataset.loaded) {
-              video.src = video.dataset.src;
-              video.dataset.loaded = 'true';
-              video.load();
-            }
-            trigger.hidden = true;
-            video.play().catch(() => {});
-          });
-        } else {
-          item.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
-        }
-        grid.appendChild(item);
-      });
+      appendNextBatch();
     } else {
       emptyEl.hidden = false;
+      updateMoreButton();
     }
 
     modal.hidden = false;
@@ -299,6 +351,7 @@ function initInspirationAlbums() {
     card.addEventListener('click', () => openModal(card.dataset.album));
   });
 
+  moreBtn.addEventListener('click', appendNextBatch);
   closeBtn?.addEventListener('click', closeModal);
   backdrop?.addEventListener('click', closeModal);
 
